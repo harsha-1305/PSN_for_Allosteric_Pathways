@@ -1,0 +1,22 @@
+MD Simulation workflow
+
+Find below the sequence of commands used for the MD workflow. Replace "pname.pdb" in the first line with the name of your input file. The rest of the workflow should remain constant. The input files can be found published alongside this workflow.
+
+gmx pdb2gmx -f pname.pdb -o processed.gro -water tip3p
+6 (Force field - amber99sb-ildn)
+gmx editconf -f processed.gro -o boxed.gro -c -d 1.0 -bt cubic
+gmx solvate -cp boxed.gro -cs spc216.gro -o solv.gro -p topol.top
+gmx grompp -f inputs/ions.mdp -c solv.gro -p topol.top -o ions.tpr
+gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -neutral -conc 0.15
+13 (SOL)
+gmx grompp -f inputs/minim.mdp -c solv_ions.gro -p topol.top -o em.tpr
+gmx mdrun -v -deffnm em
+	gmx grompp -f inputs/nvt.mdp -c em.gro -r em.gro -p topol.top -o nvt.tpr
+gmx mdrun -deffnm nvt
+	gmx grompp -f inputs/npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr
+gmx mdrun -deffnm npt
+	gmx grompp -f inputs/md.mdp -c npt.gro -t npt.cpt -p topol.top -o md_0_10.tpr
+gmx mdrun -deffnm md_0_10
+gmx trjconv -s md_0_10.tpr -f md_0_10.xtc -o md_0_10_noPBC.xtc -pbc mol -center
+1 (Protein)
+0 (System)
