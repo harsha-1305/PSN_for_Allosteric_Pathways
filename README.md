@@ -1,1 +1,3 @@
 # PSN_for_Allosteric_Pathways
+
+Here, we explore protein allostery (ligand binding at a distal site influencing function at a remote active site) by modifying the algorithm for identifying probable allosteric pathways (as used in Wang et al., 2020) to work with the following schemes of edge weights assignment; (i) the original contacts-based weights assignment, (ii) Direct Coupling (Gautier et al., 2018) inspired edge assignment based on evolutionary multiple sequence alignments (MSAs) (iii) Dynamic Coupling (Yao et al., 2016) inspired edge assignment derived from Molecular Dynamics simulations, and (iv) our novel approach, using coupling free energies derived from the block Wako-Saitô-Muñoz-Eaton (bWSME) Model (Ooka et al., 2022; Gopi et al., 2019) for edge assignment. 
